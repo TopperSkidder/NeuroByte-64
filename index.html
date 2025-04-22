@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroByte 64</title>
+  <style>
+    body {
+      background-color: black;
+      color: #33ff33;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .terminal {
+      max-width: 800px;
+      margin: auto;
+      white-space: pre-wrap;
+    }
+
+    .line {
+      margin: 5px 0;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #33ff33;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        background-color: transparent;
+      }
+    }
+
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .button-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 14px;
+      background-color: #000;
+      border: 1px solid #33ff33;
+      color: #33ff33;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 16px;
+    }
+
+    .button-link:hover {
+      background-color: #33ff33;
+      color: #000;
+      transition: 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="line">> Initializing NeuroByte 64...</div>
+  </div>
+
+  <script>
+    const lines = [
+      '> Welcome to NeuroByte 64.',
+      '> A retro terminal for modern minds.',
+      '> Join our Discord server below:',
+      '', // space for the button
+      '> Type fast. Think faster. NeuroByte 64.'
+    ];
+
+    const terminal = document.getElementById('terminal');
+    let lineIndex = 0;
+
+    function typeLine(line, i = 0) {
+      const newLine = document.createElement('div');
+      newLine.className = 'line';
+      terminal.appendChild(newLine);
+
+      function typeChar() {
+        if (i < line.length) {
+          newLine.textContent += line[i++];
+          setTimeout(typeChar, 25);
+        } else {
+          lineIndex++;
+          if (lineIndex === 3) {
+            // Insert button after the third line
+            const btn = document.createElement('a');
+            btn.href = 'https://discord.gg/xRmyHEky5Z';
+            btn.target = '_blank';
+            btn.className = 'button-link';
+            btn.textContent = 'Join NeuroByte 64';
+            terminal.appendChild(btn);
+          }
+          if (lineIndex < lines.length) {
+            setTimeout(() => typeLine(lines[lineIndex]), 300);
+          } else {
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            newLine.appendChild(cursor);
+          }
+        }
+      }
+
+      typeChar();
+    }
+
+    setTimeout(() => typeLine(lines[lineIndex]), 500);
+  </script>
+</body>
+</html>
